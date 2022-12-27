@@ -6,7 +6,7 @@ int main()
 {
     
     sf::RenderWindow window(sf::VideoMode(500, 500), "Bunny Hop");
-    game::Bunny bunny(150.f, 300.f, 5.f);
+    game::Bunny bunny(150.f, 300.f, 10.f);
     while (window.isOpen())
     {
         sf::Event event;
@@ -19,9 +19,34 @@ int main()
             if(event.type == sf::Event::KeyPressed)
             {
                 std::cout << "pressed! ";
-                if (event.key.code == sf::Keyboard::Space)
+                switch(event.key.code)
                 {
-                    bunny.setPosition(bunny.getX(), bunny.getY() - bunny.getVel());
+                    case sf::Keyboard::Up:
+                    {
+                        if (bunny.checkCollision(bunny.getX(), bunny.getY() - bunny.getVel()))
+                        {
+                            bunny.setPosition(bunny.getX(), bunny.getY() - bunny.getVel());
+                        }
+                        break;
+                    }
+
+                    case sf::Keyboard::Right:
+                    {
+                        if (bunny.checkCollision(bunny.getX() + bunny.getVel(), bunny.getY()))
+                        {
+                            bunny.setPosition(bunny.getX() + bunny.getVel(), bunny.getY());
+                            
+                        }break;
+                    }
+
+                    case sf::Keyboard::Left:
+                    {
+                        if (bunny.checkCollision(bunny.getX() - bunny.getVel(), bunny.getY()))
+                        {
+                            bunny.setPosition(bunny.getX() - bunny.getVel(), bunny.getY());
+                            
+                        }break;
+                    }
                 }
             }
         }

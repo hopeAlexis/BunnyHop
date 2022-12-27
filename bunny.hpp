@@ -17,5 +17,6 @@ namespace game
 		float getY();
 		float getVel();
 		void setPosition(float x, float y);
+		bool checkCollision(float x, float y);
 	};
 }
