@@ -4,11 +4,20 @@
 
 int main()
 {
-    
-    sf::RenderWindow window(sf::VideoMode(500, 500), "Bunny Hop");
-    game::Bunny bunny(150.f, 300.f, 10.f);
+    unsigned int w_width = 800, w_height = 500;
+    sf::RenderWindow window(sf::VideoMode(w_width, w_height), "Bunny Hop");
+    game::Bunny bunny((w_width - 200)/2, w_height - 200, 5.f);
+;
     while (window.isOpen())
     {
+        window.clear(sf::Color::White);
+        sf::Texture bg_texture;
+        bg_texture.loadFromFile("sky.jpg", sf::IntRect(0, 0, w_width, w_height));
+        sf::Sprite bg_sprite;
+        bg_sprite.setTexture(bg_texture);
+        bg_sprite.setScale(1.5, 1.5);
+        int jumpCount = 10;
+
         sf::Event event;
 
         while (window.pollEvent(event))
@@ -21,37 +30,41 @@ int main()
                 std::cout << "pressed! ";
                 switch(event.key.code)
                 {
-                    case sf::Keyboard::Up:
+                    case sf::Keyboard::Space:
                     {
-                        if (bunny.checkCollision(bunny.getX(), bunny.getY() - bunny.getVel()))
+                        std::cout << "Entered hop! " << bunny.getY() << "\n";
+                        float vel = bunny.getVel();
+                        while (vel >= -5)
                         {
-                            bunny.setPosition(bunny.getX(), bunny.getY() - bunny.getVel());
+                            int neg = 1;
+                            if (vel < 0)
+                                neg = -1;
+                            bunny.setPosition(bunny.getX(), bunny.getY() - (bunny.getVel() * bunny.getVel()) * 0.5 * neg);
+                            window.draw(bg_sprite);
+                            window.draw(bunny.getSprite());
+                            window.display();
+                            vel -= 1;
+                            std::cout << vel << "\n";
                         }
                         break;
                     }
 
                     case sf::Keyboard::Right:
                     {
-                        if (bunny.checkCollision(bunny.getX() + bunny.getVel(), bunny.getY()))
-                        {
-                            bunny.setPosition(bunny.getX() + bunny.getVel(), bunny.getY());
-                            
-                        }break;
+                        bunny.right();
+                        break;
                     }
 
                     case sf::Keyboard::Left:
                     {
-                        if (bunny.checkCollision(bunny.getX() - bunny.getVel(), bunny.getY()))
-                        {
-                            bunny.setPosition(bunny.getX() - bunny.getVel(), bunny.getY());
-                            
-                        }break;
+                        bunny.left();
+                        break;
                     }
                 }
             }
         }
 
-        window.clear(sf::Color::White);
+        window.draw(bg_sprite);
         window.draw(bunny.getSprite());
         window.display();
     }

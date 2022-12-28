@@ -9,8 +9,12 @@ Bunny::Bunny(float x, float y, float vel)
 		b_x0 = x;
 		b_y0 = y;
 		b_vel = vel;
-		b_texture.loadFromFile("chonk.png", sf::IntRect(0, 0, b_sprite_width, b_sprite_height));
-		b_sprite.setTexture(b_texture);
+		b_texture_default.loadFromFile("chonk_default.png", sf::IntRect(0, 0, b_sprite_width, b_sprite_height));
+		b_texture_right.loadFromFile("chonk_right.png", sf::IntRect(0, 0, b_sprite_width, b_sprite_height));
+		b_texture_left.loadFromFile("chonk_left.png", sf::IntRect(0, 0, b_sprite_width, b_sprite_height));
+		b_texture_hop.loadFromFile("chonk_hop.png", sf::IntRect(0, 0, b_sprite_width, b_sprite_height));
+		b_sprite.setTexture(b_texture_default);
+		//b_sprite.setScale(0.5, 0.5);
 		b_sprite.setPosition(sf::Vector2f(b_x0, b_y0));
 	}
 
@@ -29,6 +33,16 @@ Bunny::Bunny(float x, float y, float vel)
 				return b_y0;
 			}
 
+			//float Bunny::getWidth()
+			//{
+			//	return b_sprite_width;
+			//}
+
+			//float Bunny::getHeight()
+			//{
+			//	return b_sprite_height;
+			//}
+
 			float Bunny::getVel()
 			{
 				return b_vel;
@@ -46,7 +60,7 @@ Bunny::Bunny(float x, float y, float vel)
 			{
 				bool check = false;
 
-				if ((x > -10) && (x + b_sprite_width < 510))
+				if ((x > -10) && (x + b_sprite_width < 810))
 				{
 					if ((y > -10) /*&& (b_y0 + b_sprite_height < 500 - b_vel)*/)
 					{
@@ -56,4 +70,36 @@ Bunny::Bunny(float x, float y, float vel)
 				}
 
 				return check;
+			}
+
+			void Bunny::hop(float jumpCount)
+			{
+				std::cout << "Entered hop! " << b_y0 << "\n";
+				if (jumpCount >= -10)
+				{
+					int neg = 1;
+					if (jumpCount < 0)
+						neg = -1;
+					b_y0 -= (jumpCount*jumpCount) * 0.5 * neg;
+					jumpCount -= 1;
+					std::cout << jumpCount << " " << b_y0 << "\n";
+				}
+			}
+
+			void Bunny::right()
+			{
+				if (checkCollision(getX() + getVel(), getY()))
+				{
+					setPosition(getX() + getVel(), getY());
+					b_sprite.setTexture(b_texture_right);
+				}
+			}
+
+			void Bunny::left()
+			{
+				if (checkCollision(getX() - getVel(), getY()))
+				{
+					setPosition(getX() - getVel(), getY());
+					b_sprite.setTexture(b_texture_left);
+				}
 			}
