@@ -12,10 +12,9 @@ int main()
     {
         window.clear(sf::Color::White);
         sf::Texture bg_texture;
-        bg_texture.loadFromFile("sky.jpg", sf::IntRect(0, 0, w_width, w_height));
+        bg_texture.loadFromFile("sky.png", sf::IntRect(0, 0, w_width, w_height));
         sf::Sprite bg_sprite;
         bg_sprite.setTexture(bg_texture);
-        bg_sprite.setScale(1.5, 1.5);
         int jumpCount = 10;
 
         sf::Event event;
@@ -33,8 +32,8 @@ int main()
                     case sf::Keyboard::Space:
                     {
                         std::cout << "Entered hop! " << bunny.getY() << "\n";
-                        float vel = bunny.getVel();
-                        while (vel >= -5)
+                        float vel = 1;
+                        while (vel >= -1)
                         {
                             int neg = 1;
                             if (vel < 0)
@@ -43,7 +42,7 @@ int main()
                             window.draw(bg_sprite);
                             window.draw(bunny.getSprite());
                             window.display();
-                            vel -= 1;
+                            vel -= 0.1;
                             std::cout << vel << "\n";
                         }
                         break;
