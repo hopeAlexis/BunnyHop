@@ -43,27 +43,30 @@ Bunny::Bunny(float x, float y, float vel, float hop_vel)
 				return b_hop_vel;
 			}
 
+			bool Bunny::isHop()
+			{
+				return b_is_hop;
+			}
+
+			void Bunny::setIsHop(bool fl)
+			{
+				b_is_hop = fl;
+			}
+
 			void Bunny::setPosition(float x, float y)
 			{
 				b_x0 = x;
 				b_y0 = y;
-				std::cout << b_x0 << " " << b_y0 << "\n";
 				b_sprite.setPosition(sf::Vector2f(b_x0, b_y0));
 			}
 
 			bool Bunny::checkCollision(float x, float y)
 			{
 				bool check = false;
-
 				if ((x > -10) && (x + b_sprite_width < 810))
 				{
-					if ((y > -10) /*&& (b_y0 + b_sprite_height < 500 - b_vel)*/)
-					{
-						check = true;
-						std::cout << "passed the check! ";
-					}
+					check = true;
 				}
-
 				return check;
 			}
 
@@ -99,18 +102,23 @@ Bunny::Bunny(float x, float y, float vel, float hop_vel)
 				}
 			}
 
-			void Bunny::hop(float jumpCount)
+			float Bunny::hop(float cooldown)
 			{
-				std::cout << "Entered hop! " << b_y0 << "\n";
-				if (jumpCount >= -10)
+				if (cooldown >= -1)
 				{
 					int neg = 1;
-					if (jumpCount < 0)
+					changeSprite(4);
+					if (cooldown < 0)
+					{
 						neg = -1;
-					b_y0 -= (jumpCount*jumpCount) * 0.5 * neg;
-					jumpCount -= 1;
-					std::cout << jumpCount << " " << b_y0 << "\n";
+						changeSprite(1);
+					}
+					setPosition(getX(), getY() - (getHopVel() * getHopVel()) * 0.5 * neg);
+					cooldown -= 0.1;
 				}
+				else
+					setIsHop(false);
+				return cooldown;
 			}
 
 			void Bunny::right()

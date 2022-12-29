@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.15) # Проверка версии CMake.
 									 # Если версия установленой программы
-									 # старее указаной, произайдёт аварийный выход.
+									 # старее указаной, произойдёт аварийный выход.
 
 set(PROJECT_NAME BunnyHop)				 # имя проекта		 
 project("${PROJECT_NAME}")
@@ -15,21 +15,21 @@ add_definitions(-DSFML_STATIC)		 # дефайны
 
 include_directories("ext/SFML/include/")	# добавляем директории
 include_directories("inc/")
-link_directories("ext/SFML/lib/")	
+link_directories("ext/SFML/lib/")
+include_directories("assets/")	
 
 add_executable("${PROJECT_NAME}" main.cpp
 bunny.cpp
-draw.cpp
 bunny.hpp)
 											
-target_link_libraries("${PROJECT_NAME}" sfml-graphics-s-d
-						  sfml-window-s-d
-						  sfml-system-s-d
+target_link_libraries("${PROJECT_NAME}" sfml-graphics-s
+						  sfml-window-s
+						  sfml-system-s
 						  opengl32
 						  freetype
 						  winmm
 						  gdi32
-						  sfml-audio-s-d
+						  sfml-audio-s
 						  openal32
 						  flac
 						  vorbisenc

@@ -14,6 +14,8 @@ int main()
 
     game::Bunny bunny((w_width - 200)/2, w_height - 200, 10.f, 6.f);
 
+    float cooldown = 1;
+
     while (window.isOpen())
     {
         sf::Event event;
@@ -25,28 +27,14 @@ int main()
             
             if(event.type == sf::Event::KeyPressed)
             {
-                std::cout << "pressed! ";
                 switch(event.key.code)
                 {
                     case sf::Keyboard::Space:
                     {
-                        std::cout << "Entered hop! " << bunny.getY() << "\n";
-                        float cooldown = 1;
-                        bunny.changeSprite(4);
-                        while (cooldown >= -1)
+                        if (!bunny.isHop())
                         {
-                            int neg = 1;
-                            if (cooldown < 0)
-                            {
-                                neg = -1;
-                                bunny.changeSprite(1);
-                            }
-                            bunny.setPosition(bunny.getX(), bunny.getY() - (bunny.getHopVel() * bunny.getHopVel()) * 0.5 * neg);
-                            window.draw(bg_sprite);
-                            window.draw(bunny.getSprite());
-                            window.display();
-                            cooldown -= 0.1;
-                            std::cout << cooldown << "\n";
+                            bunny.setIsHop(true);
+                            cooldown = 1;
                         }
                         break;
                     }
@@ -69,11 +57,6 @@ int main()
                 switch(event.key.code)
                 {
                 case sf::Keyboard::Right:
-                {
-                    bunny.changeSprite(1);
-                    break;
-                }
-
                 case sf::Keyboard::Left:
                 {
                     bunny.changeSprite(1);
@@ -82,6 +65,9 @@ int main()
                 }
             }
         }
+
+        if (bunny.isHop())
+            cooldown = bunny.hop(cooldown);
 
         window.draw(bg_sprite);
         window.draw(bunny.getSprite());

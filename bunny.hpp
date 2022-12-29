@@ -6,6 +6,7 @@ namespace game
 	private:
 		float b_x0 = 150.f, b_y0 = 300.f;
 		float b_vel, b_hop_vel;
+		bool b_is_hop = false;
 		unsigned int b_sprite_width = 130, b_sprite_height = 200;
 		sf::Texture b_texture_default;
 		sf::Texture b_texture_right;
@@ -20,10 +21,12 @@ namespace game
 		float getY();
 		float getVel();
 		float getHopVel();
+		bool isHop();
+		void setIsHop(bool fl);
 		void setPosition(float x, float y);
 		bool checkCollision(float x, float y);
 		void changeSprite(int which);
-		void hop(float jumpCount);
+		float hop(float cooldown);
 		void right();
 		void left();
 	};
