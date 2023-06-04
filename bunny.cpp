@@ -201,7 +201,6 @@ void Game::handleKeyPressed(sf::Keyboard::Key key)
 		{
 			bunny.setIsHop(true);
 			bunny.moveRight(); // Add horizontal movement
-			cooldown = 1;
 		}
 		break;
 	}
@@ -212,7 +211,6 @@ void Game::handleKeyPressed(sf::Keyboard::Key key)
 		{
 			bunny.setIsHop(true);
 			bunny.moveLeft(); // Add horizontal movement
-			cooldown = 1;
 		}
 		break;
 	}
