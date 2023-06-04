@@ -1,3 +1,0 @@
-C:/Users/Usr/sfml/sfml_sample-main/out/build/x64-Debug/CMakeFiles/sfml_sample.dir
-C:/Users/Usr/sfml/sfml_sample-main/out/build/x64-Debug/CMakeFiles/edit_cache.dir
-C:/Users/Usr/sfml/sfml_sample-main/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
