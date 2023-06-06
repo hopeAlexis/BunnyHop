@@ -20,7 +20,9 @@ include_directories("assets/")
 
 add_executable("${PROJECT_NAME}" main.cpp
 bunny.cpp
-bunny.hpp)
+bunny.hpp
+game.cpp
+game.hpp)
 											
 target_link_libraries("${PROJECT_NAME}" sfml-graphics-s
 						  sfml-window-s
@@ -36,4 +38,4 @@ target_link_libraries("${PROJECT_NAME}" sfml-graphics-s
 						  vorbisfile
 						  vorbis
 						  ogg)
-file(COPY "assets/" DESTINATION "/")
+file(COPY "assets/" DESTINATION "assets/")

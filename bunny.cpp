@@ -9,11 +9,9 @@ Bunny::Bunny(float x, float y, float vel, float hop_vel) {
 	b_y0 = y;
 	b_vel = vel;
 	b_hop_vel = hop_vel;
-	b_texture_default.loadFromFile("chonk_default.png", sf::IntRect(0, 0, b_sprite_width, b_sprite_height));
-	b_texture_right.loadFromFile("chonk_right.png", sf::IntRect(0, 0, b_sprite_width, b_sprite_height));
-	b_texture_left.loadFromFile("chonk_left.png", sf::IntRect(0, 0, b_sprite_width, b_sprite_height));
-	b_texture_hop.loadFromFile("chonk_hop.png", sf::IntRect(0, 0, b_sprite_width, b_sprite_height));
-	b_sprite.setTexture(b_texture_default);
+	b_texture.loadFromFile("chonk_spritesheet.png", sf::IntRect(0, 0, 520, 800));
+	b_sprite.setTexture(b_texture);
+	b_sprite.setTextureRect(sf::IntRect(0, 0, 130, 200));
 	b_sprite.setPosition(sf::Vector2f(b_x0, b_y0));
 }
 
@@ -62,7 +60,7 @@ void Bunny::setPosition(float x, float y)
 bool Bunny::checkCollision(float x, float y)
 {
 	bool check = false;
-	if ((x > -10) && (x + b_sprite_width < 810))
+	if ((x > (-1)*b_vel) && (x + b_sprite_width < 800 + b_vel))
 	{
 		check = true;
 	}
@@ -75,27 +73,27 @@ void Bunny::changeSprite(int which)
 	{
 		case 1:
 		{
-			b_sprite.setTexture(b_texture_default);
+			b_sprite.setTextureRect(sf::IntRect(0, 0, 130, 200));
 			break;
 		}
 		case 2:
 		{
-			b_sprite.setTexture(b_texture_right);
+			b_sprite.setTextureRect(sf::IntRect(0, 200, 130, 200));
 			break;
 		}
 		case 3:
 		{
-			b_sprite.setTexture(b_texture_left);
+			b_sprite.setTextureRect(sf::IntRect(260, 200, 130, 200));
 			break;
 		}
 		case 4:
 		{
-			b_sprite.setTexture(b_texture_hop);
+			b_sprite.setTextureRect(sf::IntRect(390, 0, 130, 200));
 			break;
 		}
 		default:
 		{
-			b_sprite.setTexture(b_texture_default);
+			b_sprite.setTextureRect(sf::IntRect(0, 0, 130, 200));
 			break;
 		}
 	}

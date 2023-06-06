@@ -8,10 +8,7 @@ namespace game
 		float b_vel, b_hop_vel;
 		bool b_is_hop = false;
 		unsigned int b_sprite_width = 130, b_sprite_height = 200;
-		sf::Texture b_texture_default;
-		sf::Texture b_texture_right;
-		sf::Texture b_texture_left;
-		sf::Texture b_texture_hop;
+		sf::Texture b_texture;
 		sf::Sprite b_sprite;
 
 	public:
