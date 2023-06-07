@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "bunny.hpp"
 
-namespace game{
+namespace game {
 	class Game
 	{
 	private:
@@ -17,9 +17,10 @@ namespace game{
 		Game();
 		void run();
 		void processEvents();
-		void handleKeyPressed(sf::Keyboard::Key key);
+		void handleKeyPressed();
 		void handleKeyReleased(sf::Keyboard::Key key);
 		void update();
 		void render();
 	};
 }
+

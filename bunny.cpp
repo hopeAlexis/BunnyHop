@@ -9,7 +9,7 @@ Bunny::Bunny(float x, float y, float vel, float hop_vel) {
 	b_y0 = y;
 	b_vel = vel;
 	b_hop_vel = hop_vel;
-	b_texture.loadFromFile("chonk_spritesheet.png", sf::IntRect(0, 0, 520, 800));
+	b_texture.loadFromFile("assets/chonk_spritesheet.png", sf::IntRect(0, 0, 520, 800));
 	b_sprite.setTexture(b_texture);
 	b_sprite.setTextureRect(sf::IntRect(0, 0, 130, 200));
 	b_sprite.setPosition(sf::Vector2f(b_x0, b_y0));
