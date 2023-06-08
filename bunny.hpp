@@ -1,31 +1,34 @@
 #pragma once
-namespace game
-{
-	class Bunny
-	{
-	private:
-		float b_x0 = 150.f, b_y0 = 300.f;
-		float b_vel, b_hop_vel;
-		bool b_is_hop = false;
-		unsigned int b_sprite_width = 130, b_sprite_height = 200;
-		sf::Texture b_texture;
-		sf::Sprite b_sprite;
 
-	public:
-		Bunny(float x, float y, float vel, float hop_vel);
-		sf::Sprite getSprite();
-		float getX();
-		float getY();
-		float getVel();
-		float getHopVel();
-		bool isHop();
-		void setIsHop(bool fl);
-		void setPosition(float x, float y);
-		bool checkCollision(float x, float y);
-		void changeSprite(int which);
-		float hop(float cooldown);
-		void moveRight();
-		void moveLeft();
+namespace game {
+
+	enum BunnyState {
+		Idle,
+		MovingLeft,
+		MovingRight,
+		Hopping
 	};
 
+	class Bunny {
+	private:
+		float m_x;
+		float m_y;
+		float m_movementSpeed;
+		float m_hoppingSpeed;
+		sf::Texture m_texture;
+		sf::Sprite m_sprite;
+		BunnyState m_state;
+
+		void changeTextureRect(BunnyState state);
+	public:
+		Bunny(float x, float y, float movementSpeed, float hoppingSpeed);
+		void hop();
+		void moveLeft();
+		void moveRight();
+		float handleHop(float cooldown);
+
+		void setState(BunnyState state);
+		BunnyState getState();
+		sf::Sprite getSprite();
+	};
 }

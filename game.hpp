@@ -3,24 +3,13 @@
 #include "bunny.hpp"
 
 namespace game {
-	class Game
-	{
+	class Game {
 	private:
-		unsigned int w_width = 800, w_height = 500;
-		sf::RenderWindow window;
-		sf::Texture bg_texture;
-		sf::Sprite bg_sprite;
-		Bunny bunny;
-		float cooldown;
-
-	public:
+		static Game* m_instance;
 		Game();
-		void run();
-		void processEvents();
-		void handleKeyPressed();
-		void handleKeyReleased(sf::Keyboard::Key key);
-		void update();
-		void render();
+		~Game();
+	public:
+		static Game* instance();
+		int run();
 	};
 }
-

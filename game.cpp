@@ -4,98 +4,73 @@
 
 using namespace game;
 
-Game::Game() :
-	window(sf::VideoMode(w_width, w_height), "Bunny Hop"),
-	bg_texture(),
-	bg_sprite(),
-	bunny((w_width - 200) / 2, w_height - 200, 10.f, 6.f),
-	cooldown(1)
-{
+Game* Game::m_instance = nullptr;
+
+Game::Game() {}
+
+Game::~Game() {
+	delete m_instance;
+}
+
+Game* Game::instance() {
+	if (m_instance == nullptr) {
+		m_instance = new Game;
+	}
+	return m_instance;
+}
+
+int Game::run() {
+	sf::RenderWindow window(sf::VideoMode(800, 500), "Bunny Hop");
 	window.setFramerateLimit(30);
-	bg_texture.loadFromFile("assets/sky.png", sf::IntRect(0, 0, w_width, w_height));
-	bg_sprite.setTexture(bg_texture);
-}
 
-void Game::run()
-{
-	while (window.isOpen())
-	{
-		processEvents();
-		update();
-		render();
-	}
-}
+	sf::Texture texture;
+	texture.loadFromFile("assets\\sky.png");
 
-void Game::processEvents()
-{
-	sf::Event event;
-	while (window.pollEvent(event))
-	{
-		if (event.type == sf::Event::Closed)
-			window.close();
+	sf::Sprite backgroundSprite;
+	backgroundSprite.setTexture(texture);
 
+	Bunny bunny(300, 300, 10.f, 6.f);
 
-		if (event.type == sf::Event::KeyReleased)
-		{
-			handleKeyReleased(event.key.code);
+	float cooldown = 1.f;
+
+	while (window.isOpen()) {
+		// Handle window events
+		sf::Event event;
+		while (window.pollEvent(event)) {
+			if (event.type == sf::Event::Closed) {
+				window.close();
+			}
+
+			if (event.type == sf::Event::KeyReleased) {
+				if (bunny.getState() != BunnyState::Hopping) {
+					bunny.setState(BunnyState::Idle);
+				}
+			}
 		}
-	}
 
+		// Handle pressed keys
+		if (bunny.getState() != BunnyState::Hopping) {
+			if (cooldown != 1.f) cooldown = 1.f;
 
-}
-
-void Game::handleKeyPressed()
-{
-
-	if (bunny.isHop())
-	{
-		return;
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-		if (!bunny.isHop())
-		{
-			bunny.setIsHop(true);
-			cooldown = 1;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+				bunny.moveLeft();
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+				bunny.moveRight();
+			} if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+				bunny.hop();
+			}
 		}
+		else {
+			cooldown = bunny.handleHop(cooldown);
+		}
+
+		// Render
+		window.clear();
+		window.draw(backgroundSprite);
+		window.draw(bunny.getSprite());
+		window.display();
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-	{
-		bunny.moveRight();
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-	{
-		bunny.moveLeft();
-	}
-}
-
-void Game::handleKeyReleased(sf::Keyboard::Key key)
-{
-	switch (key)
-	{
-	case sf::Keyboard::Right:
-	case sf::Keyboard::Left:
-	{
-		bunny.changeSprite(1);
-		break;
-	}
-	}
-}
-
-void Game::update()
-{
-	if (bunny.isHop())
-		cooldown = bunny.hop(cooldown);
-
-	handleKeyPressed();
-}
-
-void Game::render()
-{
-	window.clear();
-	window.draw(bg_sprite);
-	window.draw(bunny.getSprite());
-	window.display();
+	return 0;
 }
