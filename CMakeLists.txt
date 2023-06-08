@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.15) # Проверка версии CMake.
+cmake_minimum_required(VERSION 3.15) # Проверка версии CMake.
 									 # Если версия установленой программы
 									 # старее указаной, произойдёт аварийный выход.
 
@@ -18,11 +19,16 @@ include_directories("inc/")
 link_directories("ext/SFML/lib/")
 include_directories("assets/")	
 
-add_executable("${PROJECT_NAME}" main.cpp
-bunny.cpp
-bunny.hpp
-game.cpp
-game.hpp)
+add_executable("${PROJECT_NAME}"
+								bunny_animator.hpp
+								bunny_animator.cpp
+								timer.hpp
+								timer.cpp
+								bunny.cpp
+								bunny.hpp
+								game.hpp
+								game.cpp
+								main.cpp)
 											
 target_link_libraries("${PROJECT_NAME}" sfml-graphics-s-d
 						  sfml-window-s-d

@@ -31,8 +31,6 @@ int Game::run() {
 
 	Bunny bunny(300, 300, 10.f, 6.f);
 
-	float cooldown = 1.f;
-
 	while (window.isOpen()) {
 		// Handle window events
 		sf::Event event;
@@ -40,30 +38,9 @@ int Game::run() {
 			if (event.type == sf::Event::Closed) {
 				window.close();
 			}
-
-			if (event.type == sf::Event::KeyReleased) {
-				if (bunny.getState() != BunnyState::Hopping) {
-					bunny.setState(BunnyState::Idle);
-				}
-			}
 		}
 
-		// Handle pressed keys
-		if (bunny.getState() != BunnyState::Hopping) {
-			if (cooldown != 1.f) cooldown = 1.f;
-
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-				bunny.moveLeft();
-			}
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-				bunny.moveRight();
-			} if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-				bunny.hop();
-			}
-		}
-		else {
-			cooldown = bunny.handleHop(cooldown);
-		}
+		bunny.update();
 
 		// Render
 		window.clear();

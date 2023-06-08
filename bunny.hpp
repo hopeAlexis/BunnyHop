@@ -1,34 +1,35 @@
 #pragma once
+#include "bunny_animator.hpp"
 
 namespace game {
-
-	enum BunnyState {
-		Idle,
-		MovingLeft,
-		MovingRight,
-		Hopping
-	};
-
 	class Bunny {
 	private:
 		float m_x;
 		float m_y;
 		float m_movementSpeed;
 		float m_hoppingSpeed;
+		bool m_isBackward;
+		bool m_isHopping;
+		float m_cooldown;
 		sf::Texture m_texture;
 		sf::Sprite m_sprite;
-		BunnyState m_state;
+		BunnyAnimator m_bunnyAnimator;
+		bool m_isLongIdle;
+		Timer m_longIdleTimer;
 
-		void changeTextureRect(BunnyState state);
+		void restartLongIdleTimer();
 	public:
 		Bunny(float x, float y, float movementSpeed, float hoppingSpeed);
+
 		void hop();
+		void moveUp();
+		void moveDown();
 		void moveLeft();
 		void moveRight();
-		float handleHop(float cooldown);
 
-		void setState(BunnyState state);
-		BunnyState getState();
+		void update();
+
+		void setRect(sf::IntRect rect);
 		sf::Sprite getSprite();
 	};
 }
