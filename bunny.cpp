@@ -1,6 +1,6 @@
-#include <iostream>
 #include <SFML/Graphics.hpp>
 #include "bunny.hpp"
+#include "sound_player.hpp"
 
 namespace game {
 	Bunny::Bunny(float x, float y, float movementSpeed, float hoppingSpeed) :
@@ -45,6 +45,8 @@ namespace game {
 				BunnySpriteSheetFrame::Hopping));
 
 			m_isHopping = true;
+
+			SoundPlayer::playJump();
 		}
 	}
 
@@ -92,6 +94,7 @@ namespace game {
 		if (!m_isHopping) {
 			if (!m_isLongIdle && m_longIdleTimer.update()) {
 				m_isLongIdle = true;
+				m_isBackward = false;
 				m_bunnyAnimator.setAnimation(BunnyAnimation::None);
 				setRect(m_bunnyAnimator.getRect(BunnySpriteSheetFrame::LongIdle));
 			}

@@ -20,6 +20,8 @@ link_directories("ext/SFML/lib/")
 include_directories("assets/")	
 
 add_executable("${PROJECT_NAME}"
+								sound_player.hpp
+								sound_player.cpp
 								bunny_animator.hpp
 								bunny_animator.cpp
 								timer.hpp

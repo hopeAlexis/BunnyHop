@@ -1,53 +1,53 @@
-#include <iostream>
 #include <SFML/Graphics.hpp>
 #include "game.hpp"
+#include "sound_player.hpp"
 
-using namespace game;
+namespace game {
+	Game* Game::m_instance = nullptr;
 
-Game* Game::m_instance = nullptr;
+	Game::Game() {}
 
-Game::Game() {}
-
-Game::~Game() {
-	delete m_instance;
-}
-
-Game* Game::instance() {
-	if (m_instance == nullptr) {
-		m_instance = new Game;
+	Game::~Game() {
+		delete m_instance;
 	}
-	return m_instance;
-}
 
-int Game::run() {
-	sf::RenderWindow window(sf::VideoMode(800, 500), "Bunny Hop");
-	window.setFramerateLimit(30);
+	Game* Game::instance() {
+		if (m_instance == nullptr) {
+			m_instance = new Game;
+		}
+		return m_instance;
+	}
 
-	sf::Texture texture;
-	texture.loadFromFile("assets\\sky.png");
+	int Game::run() {
+		sf::RenderWindow window(sf::VideoMode(800, 500), "Bunny Hop");
+		window.setFramerateLimit(30);
 
-	sf::Sprite backgroundSprite;
-	backgroundSprite.setTexture(texture);
+		sf::Texture texture;
+		texture.loadFromFile("assets\\sky.png");
 
-	Bunny bunny(300, 300, 10.f, 6.f);
+		sf::Sprite backgroundSprite;
+		backgroundSprite.setTexture(texture);
 
-	while (window.isOpen()) {
-		// Handle window events
-		sf::Event event;
-		while (window.pollEvent(event)) {
-			if (event.type == sf::Event::Closed) {
-				window.close();
+		Bunny bunny(300, 300, 10.f, 6.f);
+
+		SoundPlayer::playMusic();
+
+		while (window.isOpen()) {
+			sf::Event event;
+			while (window.pollEvent(event)) {
+				if (event.type == sf::Event::Closed) {
+					window.close();
+				}
 			}
+
+			bunny.update();
+
+			window.clear();
+			window.draw(backgroundSprite);
+			window.draw(bunny.getSprite());
+			window.display();
 		}
 
-		bunny.update();
-
-		// Render
-		window.clear();
-		window.draw(backgroundSprite);
-		window.draw(bunny.getSprite());
-		window.display();
+		return 0;
 	}
-
-	return 0;
 }
