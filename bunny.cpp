@@ -1,6 +1,9 @@
 #include <SFML/Graphics.hpp>
-#include "bunny.hpp"
 #include "sound_player.hpp"
+#include "paths.hpp"
+#include "bunny.hpp"
+#include "mushroom.hpp"
+#include "game.hpp"
 
 namespace game {
 	Bunny::Bunny(float x, float y, float movementSpeed, float hoppingSpeed) :
@@ -13,14 +16,16 @@ namespace game {
 		m_cooldown(1.f),
 		m_bunnyAnimator(this, 250),
 		m_isLongIdle(false),
-		m_longIdleTimer(5000) {
+		m_longIdleTimer(5000),
+		m_mushroomInfluenceTimer(10000) {
 
-		m_texture.loadFromFile("assets//chonk_spritesheet.png");
+		m_texture.loadFromFile(Paths::getBunnySpriteSheetTexturePath());
 		m_sprite.setTexture(m_texture);
 		m_sprite.setPosition(sf::Vector2f(x, y));
 
 		setRect(m_bunnyAnimator.getRect(BunnySpriteSheetFrame::Idle1));
 		m_longIdleTimer.restart();
+		m_mushroomInfluenceTimer.restart();
 	}
 
 	void Bunny::restartLongIdleTimer() {
@@ -32,8 +37,24 @@ namespace game {
 		m_sprite.setTextureRect(rect);
 	}
 
-	sf::Sprite Bunny::getSprite() {
+	sf::Sprite& Bunny::getSprite() {
 		return m_sprite;
+	}
+
+	sf::FloatRect Bunny::getBounds() {
+		return m_sprite.getGlobalBounds();
+	}
+
+	void Bunny::setMushroomInfluence(int value) {
+		m_sprite.setColor(sf::Color(value, 255, value));
+	}
+
+	int Bunny::getMushroomInfluence() {
+		return m_sprite.getColor().r;
+	}
+
+	void Bunny::resetMushroomInfluenceTimer() {
+		m_mushroomInfluenceTimer.restart();
 	}
 
 	void Bunny::hop() {
@@ -66,7 +87,7 @@ namespace game {
 
 		m_bunnyAnimator.setAnimation(BunnyAnimation::Idle);
 		restartLongIdleTimer();
-
+		
 		float y = m_y + m_movementSpeed;
 		if (y >= 300) return;
 		m_y = y;
@@ -91,6 +112,14 @@ namespace game {
 	}
 
 	void Bunny::update() {
+
+		if (getMushroomInfluence() != 255 &&
+			m_mushroomInfluenceTimer.update()) {
+			setMushroomInfluence(255);
+			m_mushroomInfluenceTimer.restart();
+			Game::instance()->getMushroom()->resetCounter();
+		}
+
 		if (!m_isHopping) {
 			if (!m_isLongIdle && m_longIdleTimer.update()) {
 				m_isLongIdle = true;
@@ -102,27 +131,21 @@ namespace game {
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
 				hop();
 				return;
-			}
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+			} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 				moveUp();
-			}
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+			} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 				moveDown();
-			}
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+			} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 				moveLeft();
-			}
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+			} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 				moveRight();
-			}
-			else if (!m_isLongIdle) {
+			} else if (!m_isLongIdle) {
 				m_bunnyAnimator.setAnimation(
 					m_isBackward ?
 					BunnyAnimation::IdleBackward :
 					BunnyAnimation::Idle);
 			}
-		}
-		else {
+		} else {
 			if (m_cooldown >= -1) {
 				int multiplier;
 				if (m_cooldown < 0) {
@@ -130,14 +153,12 @@ namespace game {
 						BunnySpriteSheetFrame::IdleBackward1 :
 						BunnySpriteSheetFrame::Idle1));
 					multiplier = -1;
-				}
-				else {
+				} else {
 					multiplier = 1;
 				}
 				m_y = m_y - m_hoppingSpeed * m_hoppingSpeed * 0.5 * multiplier;
 				m_cooldown -= 0.1;
-			}
-			else {
+			} else {
 				m_cooldown = 1.f;
 				m_isHopping = false;
 

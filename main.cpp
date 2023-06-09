@@ -3,7 +3,6 @@
 #include "game.hpp"
 #include "bunny.hpp"
 
-int main()
-{
+int main() {
     return game::Game::instance()->run();
 }

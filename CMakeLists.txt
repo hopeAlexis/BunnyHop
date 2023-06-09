@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 3.15) # Проверка версии CMake.
-cmake_minimum_required(VERSION 3.15) # Проверка версии CMake.
 									 # Если версия установленой программы
 									 # старее указаной, произойдёт аварийный выход.
 
@@ -20,12 +19,24 @@ link_directories("ext/SFML/lib/")
 include_directories("assets/")	
 
 add_executable("${PROJECT_NAME}"
-								sound_player.hpp
-								sound_player.cpp
 								bunny_animator.hpp
 								bunny_animator.cpp
 								timer.hpp
 								timer.cpp
+								sound_player.hpp
+								sound_player.cpp
+								pickable_item.hpp
+								pickable_item.cpp
+								magic_ball.hpp
+								magic_ball.cpp
+								mushroom.hpp
+								mushroom.cpp
+								randomizer.hpp
+								randomizer.cpp
+								background.hpp
+								background.cpp
+								paths.hpp
+								paths.cpp
 								bunny.cpp
 								bunny.hpp
 								game.hpp
@@ -40,7 +51,7 @@ target_link_libraries("${PROJECT_NAME}" sfml-graphics-s-d
 						  winmm
 						  gdi32
 						  sfml-audio-s-d
-						  openal32
+						  OpenAL32
 						  flac
 						  vorbisenc
 						  vorbisfile

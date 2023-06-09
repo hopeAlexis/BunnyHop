@@ -10,7 +10,8 @@ namespace game {
 		m_amountOfFrames(-1),
 		m_currentFrameIndex(-1),
 		m_timer(250),
-		m_bunny(bunny) {}
+		m_bunny(bunny) {
+	}
 
 	sf::IntRect BunnyAnimator::getRect(BunnySpriteSheetFrame frame) {
 		switch (frame) {
@@ -56,36 +57,35 @@ namespace game {
 			switch (animation) {
 			case BunnyAnimation::Idle:
 				m_amountOfFrames = 3;
-				m_currentAnimationFrames[0] = BunnySpriteSheetFrame::Idle1;
-				m_currentAnimationFrames[1] = BunnySpriteSheetFrame::Idle2;
-				m_currentAnimationFrames[2] = BunnySpriteSheetFrame::Idle3;
+				m_currentAnimationFrames.get()[0] = BunnySpriteSheetFrame::Idle1;
+				m_currentAnimationFrames.get()[1] = BunnySpriteSheetFrame::Idle2;
+				m_currentAnimationFrames.get()[2] = BunnySpriteSheetFrame::Idle3;
 				break;
 			case BunnyAnimation::IdleBackward:
 				m_amountOfFrames = 3;
-				m_currentAnimationFrames[0] = BunnySpriteSheetFrame::IdleBackward1;
-				m_currentAnimationFrames[1] = BunnySpriteSheetFrame::IdleBackward2;
-				m_currentAnimationFrames[2] = BunnySpriteSheetFrame::IdleBackward3;
+				m_currentAnimationFrames.get()[0] = BunnySpriteSheetFrame::IdleBackward1;
+				m_currentAnimationFrames.get()[1] = BunnySpriteSheetFrame::IdleBackward2;
+				m_currentAnimationFrames.get()[2] = BunnySpriteSheetFrame::IdleBackward3;
 				break;
 			case BunnyAnimation::MovingLeft:
 				m_amountOfFrames = 2;
-				m_currentAnimationFrames[0] = BunnySpriteSheetFrame::MovingLeft1;
-				m_currentAnimationFrames[1] = BunnySpriteSheetFrame::MovingLeft2;
+				m_currentAnimationFrames.get()[0] = BunnySpriteSheetFrame::MovingLeft1;
+				m_currentAnimationFrames.get()[1] = BunnySpriteSheetFrame::MovingLeft2;
 				break;
 			case BunnyAnimation::MovingRight:
 				m_amountOfFrames = 2;
-				m_currentAnimationFrames[0] = BunnySpriteSheetFrame::MovingRight1;
-				m_currentAnimationFrames[1] = BunnySpriteSheetFrame::MovingRight2;
+				m_currentAnimationFrames.get()[0] = BunnySpriteSheetFrame::MovingRight1;
+				m_currentAnimationFrames.get()[1] = BunnySpriteSheetFrame::MovingRight2;
 				break;
 			}
 
 			m_currentAnimation = animation;
-
+			
 			if (animation != BunnyAnimation::None) {
-				m_bunny->setRect(getRect(m_currentAnimationFrames[0]));
+				m_bunny->setRect(getRect(m_currentAnimationFrames.get()[0]));
 				m_currentFrameIndex = 0;
-			}
-			else {
-				m_currentFrameIndex = m_amountOfFrames - 1;
+			} else {
+				m_currentFrameIndex = m_amountOfFrames -1;
 			}
 		}
 	}
@@ -103,7 +103,7 @@ namespace game {
 
 			if (m_timer.update()) {
 				m_bunny->setRect(
-					getRect(m_currentAnimationFrames[m_currentFrameIndex]));
+					getRect(m_currentAnimationFrames.get()[m_currentFrameIndex]));
 
 				if (++m_currentFrameIndex == m_amountOfFrames) {
 					m_currentFrameIndex = 0;

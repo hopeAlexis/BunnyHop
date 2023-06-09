@@ -2,10 +2,10 @@
 
 namespace game {
 	Timer::Timer(int delay) : m_delay(delay), m_isStarted(false) {}
-
+	
 	void Timer::restart() {
 		m_clock.restart();
-
+		
 		if (!m_isStarted) {
 			m_isStarted = true;
 		}

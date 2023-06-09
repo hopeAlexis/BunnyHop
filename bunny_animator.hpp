@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <memory>
 #include "timer.hpp"
 
 namespace game {
@@ -33,7 +34,7 @@ namespace game {
 	class BunnyAnimator {
 	private:
 		BunnyAnimation m_currentAnimation;
-		BunnySpriteSheetFrame* m_currentAnimationFrames;
+		std::unique_ptr<BunnySpriteSheetFrame> m_currentAnimationFrames;
 		int m_amountOfFrames;
 		int m_currentFrameIndex;
 		Timer m_timer;
