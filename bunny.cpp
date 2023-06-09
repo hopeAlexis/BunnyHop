@@ -46,7 +46,7 @@ namespace game {
 	}
 
 	void Bunny::setMushroomInfluence(int value) {
-		m_sprite.setColor(sf::Color(value, 255, value));
+		m_sprite.setColor(sf::Color(255, value, 255));
 	}
 
 	int Bunny::getMushroomInfluence() {
