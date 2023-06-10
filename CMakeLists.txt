@@ -43,14 +43,14 @@ add_executable("${PROJECT_NAME}"
 								game.cpp
 								main.cpp)
 											
-target_link_libraries("${PROJECT_NAME}" sfml-graphics-s-d
-						  sfml-window-s-d
-						  sfml-system-s-d
+target_link_libraries("${PROJECT_NAME}" sfml-graphics-s
+						  sfml-window-s
+						  sfml-system-s
 						  opengl32
 						  freetype
 						  winmm
 						  gdi32
-						  sfml-audio-s-d
+						  sfml-audio-s
 						  OpenAL32
 						  flac
 						  vorbisenc
