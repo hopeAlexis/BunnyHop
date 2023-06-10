@@ -50,7 +50,7 @@ namespace game {
 	}
 
 	int Bunny::getMushroomInfluence() {
-		return m_sprite.getColor().r;
+		return m_sprite.getColor().g;
 	}
 
 	void Bunny::resetMushroomInfluenceTimer() {
