@@ -7,7 +7,7 @@ namespace game {
 		m_frontSprite.setTexture(m_frontTexture);
 	}
 
-	void Background::setAlpha(float value) {
+	void Background::setAlpha(float value) {				// set opacity
 		if (value > 1.f) value = 1.f;
 		m_frontSprite.setColor(sf::Color(255, 255, 255, 255 * value));
 		m_alpha = value;
@@ -15,7 +15,7 @@ namespace game {
 	
 	void Background::update(sf::RenderWindow& window) {
 		if (m_isChanging) {
-			setAlpha(m_alpha + 0.04);
+			setAlpha(m_alpha + 0.04);						// becomes less transparent every iteration
 			if (m_alpha >= 1.f) {
 				m_isChanging = false;
 			} else {
@@ -28,7 +28,7 @@ namespace game {
 
 	void Background::change() {
 		if (!m_isChanging) {
-			static int currentBackground = 1;
+			static int currentBackground = 1;				// static so that it doesn't change every iteration
 
 			currentBackground++;
 
@@ -36,9 +36,9 @@ namespace game {
 				currentBackground = 1;
 			}
 
-			setAlpha(0.f);
+			setAlpha(0.f);									// invisible layer (for now)
 
-			m_backTexture = m_frontTexture;
+			m_backTexture = m_frontTexture;					// swapping backgrounds	
 			m_backSprite.setTexture(m_backTexture);
 
 			m_frontTexture.loadFromFile(Paths::getBackgroundTexturePath(currentBackground));

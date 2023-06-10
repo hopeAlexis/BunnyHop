@@ -6,13 +6,13 @@ namespace game {
 	private:
 		sf::Texture m_backTexture;
 		sf::Texture m_frontTexture;
-		sf::Sprite m_backSprite;
-		sf::Sprite m_frontSprite;
+		sf::Sprite m_backSprite;		// background in the back
+		sf::Sprite m_frontSprite;		// background in the front
 
 		float m_alpha;
 		bool m_isChanging;
 
-		void setAlpha(float value);
+		void setAlpha(float value);		// opacity of the background (front part)
 	public:
 		Background();
 

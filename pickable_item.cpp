@@ -15,7 +15,7 @@ namespace game {
 		return m_counter;
 	}
 
-	void PickableItem::setAlpha(float value) {
+	void PickableItem::setAlpha(float value) {								// set opacity
 		if (value > 1.f) value = 1.f;
 		m_sprite.setColor(sf::Color(255, 255, 255, 255 * value));
 		m_alpha = value;

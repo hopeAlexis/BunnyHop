@@ -4,7 +4,7 @@
 
 namespace game {
 	class PickableItem {
-	protected:
+	protected:									
 		sf::Texture m_texture;
 		sf::Sprite m_sprite;
 		bool m_isVisible;
